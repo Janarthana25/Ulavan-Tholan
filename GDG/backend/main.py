@@ -82,6 +82,18 @@ async def login():
 async def dashboard():
     return FileResponse("frontend/templates/dashboard.html")
 
+@app.get("/disease-detection")
+async def disease_detection():
+    return FileResponse("frontend/templates/disease-detection.html")
+
+@app.get("/crop-recommendation")
+async def crop_recommendation():
+    return FileResponse("frontend/templates/crop-recommendation.html")
+
+@app.get("/analytics")
+async def analytics_page():
+    return FileResponse("frontend/templates/analytics.html")
+
 @app.get("/api/health")
 async def health_check():
     """API health check"""
