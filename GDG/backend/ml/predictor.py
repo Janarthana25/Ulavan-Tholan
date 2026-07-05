@@ -10,7 +10,7 @@ import json
 import os
 from typing import List, Dict, Tuple
 
-class DiseasePredic tor:
+class DiseasePredictor:
     def __init__(self, model_path='backend/ml/models/plant_disease_model.h5',
                  classes_path='backend/ml/models/class_names.json'):
         """Initialize predictor with trained model"""
