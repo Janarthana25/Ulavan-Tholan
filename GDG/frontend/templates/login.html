@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>உழவன் தோழன் — Login</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/lang.css">
+    <style>
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f5dc 0%, #e8f5e9 100%);
+            padding: 2rem;
+        }
+        
+        .login-container {
+            max-width: 450px;
+            width: 100%;
+        }
+        
+        .login-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            box-shadow: var(--clay-shadow-lg);
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .login-title {
+            font-size: 2rem;
+            color: var(--forest-green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-subtitle {
+            color: var(--medium-gray);
+        }
+        
+        .login-form {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--forest-green);
+        }
+        
+        .error-message {
+            color: #f44336;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .error-message.active {
+            display: block;
+        }
+        
+        .login-footer {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .back-link {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <img src="/static/images/logo ulavan tholan.jpeg" alt="உழவன் தோழன்" style="width:100px;height:100px;border-radius:50%;box-shadow:var(--clay-shadow);background:white;padding:3px;object-fit:cover;">
+                    </div>
+                    <h1 class="login-title">உழவன் தோழன்</h1>
+                    <p style="color:var(--medium-gray);font-size:0.85rem;margin-bottom:0.25rem;letter-spacing:0.08em;text-transform:uppercase;">Ulavan Tholan</p>
+                    <p class="login-subtitle">Login to continue your farming journey</p>
+                </div>
+                
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email or Username</label>
+                        <input 
+                            type="text" 
+                            class="clay-input" 
+                            id="email" 
+                            placeholder="Enter your email or username"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input 
+                            type="password" 
+                            class="clay-input" 
+                            id="password" 
+                            placeholder="Enter your password"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="error-message" id="errorMessage"></div>
+                    
+                    <button type="submit" class="clay-button clay-button-primary" style="width: 100%; margin-top: 1.5rem; padding: 1rem;">
+                        Login to Dashboard
+                    </button>
+                </form>
+                
+                <div class="login-footer">
+                    <a href="/" class="back-link">← Back to Home</a>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem; color: var(--medium-gray);">
+                <p>Demo Login: Use any email and password</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+        <span id="themeIcon">🌙</span>
+    </button>
+
+    <!-- Scripts -->
+    <script src="/static/js/translations.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script>
+        // If already logged in, redirect to dashboard immediately
+        if (sessionStorage.getItem('isLoggedIn')) {
+            window.location.replace('/dashboard');
+        }
+
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email    = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (email && password) {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('userEmail', email);
+                sessionStorage.setItem('loginTime', new Date().toISOString());
+                window.location.href = '/dashboard';
+            } else {
+                errorMessage.textContent = 'Please enter both email and password';
+                errorMessage.classList.add('active');
+            }
+        });
+
+        if (window.LangManager) window.LangManager.applyAll();
+    </script>
+</body>
+</html>

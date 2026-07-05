@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>உழவன் தோழன் — Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/static/css/lang.css">
+    <!-- Auth guard: must be first script -->
+    <script src="/static/js/auth.js"></script>
+    <!-- Force-hide modals immediately before any CSS loads -->
+    <style>
+        .modal-backdrop {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        .modal-backdrop.modal-open {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: all !important;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            animation: fadeIn 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <img src="/static/images/logo ulavan tholan.jpeg" alt="உழவன் தோழன்" class="nav-logo-img">
+                <div class="nav-logo-text">
+                    <span class="nav-logo-tamil">உழவன் தோழன்</span>
+                    <span class="nav-logo-english">Ulavan Tholan</span>
+                </div>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link" data-i18n="nav_home">Home</a></li>
+                <li><a href="/dashboard" class="nav-link">Dashboard</a></li>
+                <li><a href="/disease-detection" class="nav-link">Disease Detection</a></li>
+<li><a href="/crop-recommendation" class="nav-link">Crop Advisory</a></li>
+<li><a href="/analytics" class="nav-link">Analytics</a></li>
+<li>
+                    <div class="lang-switcher">
+                        <button class="lang-btn active-lang" data-lang="en" onclick="LangManager.set('en')">EN</button>
+                        <button class="lang-btn" data-lang="ta" onclick="LangManager.set('ta')">தமிழ்</button>
+                        <button class="lang-btn" data-lang="hi" onclick="LangManager.set('hi')">हिंदी</button>
+                    </div>
+                </li>
+                <li><button class="clay-button" id="logoutBtn" data-i18n="nav_logout">Logout</button></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle">☰</button>
+        </div>
+    </nav>
+
+    <div class="dashboard">
+        <div class="dashboard-container">
+
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div class="dashboard-welcome">
+                    <h1 class="dashboard-title" id="welcomeTitle">Welcome back 👋</h1>
+                    <p class="dashboard-subtitle" data-i18n="dash_subtitle">Here's what's happening with your farm today</p>
+                </div>
+                <div class="dashboard-actions">
+                    <button class="clay-button clay-button-primary" onclick="window.location.href='/disease-detection'">
+                        🔍 <span data-i18n="dash_btn_detect">Detect Disease</span>
+                    </button><button class="clay-button" onclick="window.location.href='/analytics'">
+                        📊 <span data-i18n="dash_btn_reports">View Reports</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+
+                <!-- Weather Card -->
+                <div class="weather-card">
+                    <div class="weather-content">
+                        <div class="weather-main">
+                            <div class="weather-location">📍 India</div>
+                            <div class="weather-temp"><span id="weatherTemp">—</span>°C</div>
+                            <div class="weather-condition" id="weatherCondition">Loading...</div>
+                        </div>
+                        <div class="weather-details">
+                            <div class="weather-detail">
+                                <div class="weather-detail-icon">💧</div>
+                                <div class="weather-detail-value" id="weatherHumidity">—</div>
+                                <div class="weather-detail-label">Humidity %</div>
+                            </div>
+                            <div class="weather-detail">
+                                <div class="weather-detail-icon">🌧️</div>
+                                <div class="weather-detail-value" id="weatherRainfall">—</div>
+                                <div class="weather-detail-label">Rain mm</div>
+                            </div>
+                            <div class="weather-detail">
+                                <div class="weather-detail-icon">💨</div>
+                                <div class="weather-detail-value" id="weatherWind">—</div>
+                                <div class="weather-detail-label">Wind km/h</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="stats-row">
+                    <div class="stat-card-dash">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title" data-i18n="dash_total_diag">Total Diagnoses</div>
+                            <div class="stat-card-icon">🔍</div>
+                        </div>
+                        <div class="stat-card-value" id="statDiag">0</div>
+                        <div class="stat-card-change positive" id="statDiagChange">Start detecting</div>
+                    </div>
+                    <div class="stat-card-dash">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title" data-i18n="dash_healthy">Healthy Plants</div>
+                            <div class="stat-card-icon">🌱</div>
+                        </div>
+                        <div class="stat-card-value" id="statHealthy">—</div>
+                        <div class="stat-card-change positive">Based on scans</div>
+                    </div>
+                    <div class="stat-card-dash">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title" data-i18n="dash_crop">Crops Checked</div>
+                            <div class="stat-card-icon">🌾</div>
+                        </div>
+                        <div class="stat-card-value" id="statCrops">0</div>
+                        <div class="stat-card-change positive">Crop advisory used</div>
+                    </div>
+                    <div class="stat-card-dash">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Last Scan</div>
+                            <div class="stat-card-icon">📅</div>
+                        </div>
+                        <div class="stat-card-value" style="font-size:1.2rem;" id="statLastScan">Never</div>
+                        <div class="stat-card-change positive">Most recent</div>
+                    </div>
+                </div>
+
+                <!-- AI Recommendation -->
+                <div class="ai-recommendation">
+                    <div class="ai-header">
+                        <div class="ai-icon">🤖</div>
+                        <div class="ai-title" data-i18n="dash_ai_title">AI Recommendation</div>
+                    </div>
+                    <div class="ai-content">
+                        <p class="ai-message" id="aiMessage">
+                            Based on current weather patterns and soil moisture levels, we recommend
+                            reducing irrigation by 20% for the next 3 days. Expected rainfall: 15mm.
+                            This will optimize water usage and prevent over-watering.
+                        </p>
+                        <div class="ai-tags" id="aiTags">
+                            <div class="ai-tag">💧 Water Management</div>
+                            <div class="ai-tag">🌧️ Weather Alert</div>
+                            <div class="ai-tag">⚡ High Priority</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h3 class="quick-actions-title" data-i18n="dash_quick_title">Quick Actions</h3>
+                    <div class="actions-grid">
+                        <a href="/disease-detection" class="action-button">
+                            <div class="action-icon">🔍</div>
+                            <div class="action-label" data-i18n="act_detect">Detect Disease</div>
+                        </a>
+                        <a href="/crop-recommendation" class="action-button">
+                            <div class="action-icon">🌾</div>
+                            <div class="action-label" data-i18n="act_crop">Crop Advice</div>
+                        </a>
+                        <button type="button" class="action-button" id="waterBtn">
+                            <div class="action-icon">💧</div>
+                            <div class="action-label" data-i18n="act_water">Water Plan</div>
+                        </button>
+                        <button type="button" class="action-button" id="fertBtn">
+                            <div class="action-icon">🧪</div>
+                            <div class="action-label" data-i18n="act_fertilizer">Fertilizer</div>
+                        </button>
+                        <a href="/voice-assistant" class="action-button">
+                            <div class="action-icon">🎤</div>
+                            <div class="action-label" data-i18n="act_voice">Voice Assistant</div>
+                        </a>
+                        <a href="/analytics" class="action-button">
+                            <div class="action-icon">📊</div>
+                            <div class="action-label" data-i18n="act_analytics">Analytics</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <div class="activity-header">
+                        <h3 data-i18n="dash_activity_title">Recent Activity</h3>
+                        <a href="/disease-detection" style="color:var(--primary-green);font-weight:500;">
+                            + New Scan →
+                        </a>
+                    </div>
+                    <ul class="activity-list" id="activityList">
+                        <!-- Filled by JS -->
+                    </ul>
+                </div>
+
+                <!-- Alerts -->
+                <div class="alerts-section" id="alertsSection" style="display:none;">
+                    <h3 style="margin-bottom:1rem;color:var(--forest-green);" data-i18n="dash_alerts">⚠️ Alerts & Notifications</h3>
+                    <div id="alertsList"></div>
+                </div>
+
+            </div><!-- end grid -->
+        </div>
+    </div>
+
+    <!-- ===================== MODALS ===================== -->
+
+    <!-- Water Plan Modal -->
+    <div id="waterModal" class="modal-backdrop" style="display:none!important;visibility:hidden;opacity:0;pointer-events:none;">
+        <div class="modal-box clay-card">
+            <div class="modal-header">
+                <h3>💧 Water Advisory</h3>
+                <button class="modal-close" onclick="closeModal('waterModal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Crop Type</label>
+                    <select class="clay-input" id="waterCrop">
+                        <option value="tomato">Tomato</option>
+                        <option value="rice">Rice</option>
+                        <option value="wheat">Wheat</option>
+                        <option value="potato">Potato</option>
+                        <option value="maize">Maize</option>
+                        <option value="cotton">Cotton</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Soil Moisture (%)</label>
+                    <input class="clay-input" type="number" id="waterMoisture" placeholder="45" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Growth Stage</label>
+                    <select class="clay-input" id="waterStage">
+                        <option value="seedling">Seedling</option>
+                        <option value="vegetative">Vegetative</option>
+                        <option value="flowering">Flowering</option>
+                        <option value="fruiting">Fruiting</option>
+                        <option value="maturity">Maturity</option>
+                    </select>
+                </div>
+                <button class="clay-button clay-button-primary" style="width:100%;margin-top:1rem;" onclick="getWaterAdvisory()">
+                    Get Advisory
+                </button>
+                <div id="waterResult" style="margin-top:1.5rem;display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fertilizer Modal -->
+    <div id="fertModal" class="modal-backdrop" style="display:none!important;visibility:hidden;opacity:0;pointer-events:none;">
+        <div class="modal-box clay-card">
+            <div class="modal-header">
+                <h3>🧪 Fertilizer Recommendation</h3>
+                <button class="modal-close" onclick="closeModal('fertModal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Crop Type</label>
+                    <select class="clay-input" id="fertCrop">
+                        <option value="tomato">Tomato</option>
+                        <option value="rice">Rice</option>
+                        <option value="wheat">Wheat</option>
+                        <option value="potato">Potato</option>
+                        <option value="maize">Maize</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Soil Type</label>
+                    <select class="clay-input" id="fertSoil">
+                        <option value="loamy">Loamy</option>
+                        <option value="sandy">Sandy</option>
+                        <option value="black">Black Soil</option>
+                        <option value="red">Red Soil</option>
+                        <option value="clayey">Clayey</option>
+                    </select>
+                </div>
+                <button class="clay-button clay-button-primary" style="width:100%;margin-top:1rem;" onclick="getFertRecommendation()">
+                    Get Recommendation
+                </button>
+                <div id="fertResult" style="margin-top:1.5rem;display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+        <span id="themeIcon">🌙</span>
+    </button>
+
+    <script src="/static/js/translations.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

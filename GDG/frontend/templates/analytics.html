@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>உழவன் தோழன் — Analytics</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/static/css/lang.css">
+    <script src="/static/js/auth.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <img src="/static/images/logo ulavan tholan.jpeg" alt="உழவன் தோழன்" class="nav-logo-img">
+                <div class="nav-logo-text">
+                    <span class="nav-logo-tamil">உழவன் தோழன்</span>
+                    <span class="nav-logo-english">Ulavan Tholan</span>
+                </div>
+            </a>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link" data-i18n="nav_home">Home</a></li>
+                <li><a href="/dashboard" class="nav-link" data-i18n="nav_dashboard">Dashboard</a></li>
+                <li><a href="/disease-detection" class="nav-link" data-i18n="nav_disease">Disease Detection</a></li>
+                <li><a href="/crop-recommendation" class="nav-link" data-i18n="nav_crop">Crop Advisory</a></li>
+                <li><a href="/analytics" class="nav-link" data-i18n="nav_analytics">Analytics</a></li>
+                <li>
+                    <div class="lang-switcher">
+                        <button class="lang-btn active-lang" data-lang="en" onclick="LangManager.set('en')">EN</button>
+                        <button class="lang-btn" data-lang="ta" onclick="LangManager.set('ta')">தமிழ்</button>
+                        <button class="lang-btn" data-lang="hi" onclick="LangManager.set('hi')">हिंदी</button>
+                    </div>
+                </li>
+                <li><button class="clay-button" id="logoutBtn" data-i18n="nav_logout">Logout</button></li>
+            </ul>
+            
+            <button class="nav-toggle" id="navToggle">
+                <span>☰</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Analytics Dashboard -->
+    <div class="dashboard">
+        <div class="dashboard-container">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div class="dashboard-welcome">
+                    <h1 class="dashboard-title">📊 Farm Analytics</h1>
+                    <p class="dashboard-subtitle">Comprehensive insights and performance metrics</p>
+                </div>
+                <div class="dashboard-actions">
+                    <select class="clay-button" style="padding: 0.5rem 1rem;">
+                        <option>Last 7 Days</option>
+                        <option>Last Month</option>
+                        <option>Last 3 Months</option>
+                        <option>Last Year</option>
+                    </select>
+                    <button class="clay-button clay-button-primary">
+                        📥 Export Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="dashboard-grid">
+                <!-- Overview Stats -->
+                <div class="stats-row">
+                    <div class="stat-card-dash">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Total Diagnoses</div>
+                            <div class="stat-card-icon">🔍</div>
+                        </div>
+                        <div class="stat-card-value">1,247</div>
+                        <div class="stat-card-change positive">
+                            <span>↑</span>
+                            <span>15% from last period</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-dash">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Healthy Rate</div>
+                            <div class="stat-card-icon">✅</div>
+                        </div>
+                        <div class="stat-card-value">71.5%</div>
+                        <div class="stat-card-change positive">
+                            <span>↑</span>
+                            <span>8% improvement</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-dash">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Farmers Helped</div>
+                            <div class="stat-card-icon">👨‍🌾</div>
+                        </div>
+                        <div class="stat-card-value">523</div>
+                        <div class="stat-card-change positive">
+                            <span>↑</span>
+                            <span>42 new this month</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-dash">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">AI Accuracy</div>
+                            <div class="stat-card-icon">🎯</div>
+                        </div>
+                        <div class="stat-card-value">94.5%</div>
+                        <div class="stat-card-change positive">
+                            <span>↑</span>
+                            <span>0.5% increase</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disease Distribution -->
+                <div class="chart-card" style="grid-column: span 6;">
+                    <div class="chart-header">
+                        <h3 class="chart-title">🦠 Disease Distribution</h3>
+                        <select class="chart-filter">
+                            <option>All Crops</option>
+                            <option>Tomato</option>
+                            <option>Potato</option>
+                            <option>Pepper</option>
+                        </select>
+                    </div>
+                    <div style="padding: 2rem;">
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span style="font-weight: 600;">Early Blight</span>
+                                    <span style="color: var(--primary-green); font-weight: 600;">25.1%</span>
+                                </div>
+                                <div style="height: 10px; background: var(--light-gray); border-radius: 10px; overflow: hidden;">
+                                    <div style="height: 100%; width: 25.1%; background: linear-gradient(90deg, var(--primary-green), var(--lime-green));"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span style="font-weight: 600;">Late Blight</span>
+                                    <span style="color: var(--sky-blue); font-weight: 600;">18.9%</span>
+                                </div>
+                                <div style="height: 10px; background: var(--light-gray); border-radius: 10px; overflow: hidden;">
+                                    <div style="height: 100%; width: 18.9%; background: linear-gradient(90deg, var(--sky-blue), #0288D1);"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span style="font-weight: 600;">Bacterial Spot</span>
+                                    <span style="color: var(--wheat-yellow); font-weight: 600;">15.2%</span>
+                                </div>
+                                <div style="height: 10px; background: var(--light-gray); border-radius: 10px; overflow: hidden;">
+                                    <div style="height: 100%; width: 15.2%; background: linear-gradient(90deg, var(--wheat-yellow), #FF9800);"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span style="font-weight: 600;">Leaf Mold</span>
+                                    <span style="color: var(--soil-brown); font-weight: 600;">12.1%</span>
+                                </div>
+                                <div style="height: 10px; background: var(--light-gray); border-radius: 10px; overflow: hidden;">
+                                    <div style="height: 100%; width: 12.1%; background: linear-gradient(90deg, var(--soil-brown), #A1887F);"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span style="font-weight: 600;">Others</span>
+                                    <span style="color: var(--medium-gray); font-weight: 600;">28.7%</span>
+                                </div>
+                                <div style="height: 10px; background: var(--light-gray); border-radius: 10px; overflow: hidden;">
+                                    <div style="height: 100%; width: 28.7%; background: linear-gradient(90deg, var(--medium-gray), var(--dark-gray));"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly Trends -->
+                <div class="chart-card" style="grid-column: span 6;">
+                    <div class="chart-header">
+                        <h3 class="chart-title">📈 Monthly Diagnosis Trends</h3>
+                        <select class="chart-filter">
+                            <option>2026</option>
+                            <option>2025</option>
+                        </select>
+                    </div>
+                    <div style="padding: 2rem;">
+                        <div style="display: flex; align-items: end; gap: 1rem; height: 200px;">
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                <div style="flex: 1; width: 100%; display: flex; align-items: end;">
+                                    <div style="width: 100%; height: 40%; background: linear-gradient(180deg, var(--primary-green), var(--forest-green)); border-radius: 8px 8px 0 0;"></div>
+                                </div>
+                                <span style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--medium-gray);">Jan</span>
+                            </div>
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                <div style="flex: 1; width: 100%; display: flex; align-items: end;">
+                                    <div style="width: 100%; height: 46%; background: linear-gradient(180deg, var(--primary-green), var(--forest-green)); border-radius: 8px 8px 0 0;"></div>
+                                </div>
+                                <span style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--medium-gray);">Feb</span>
+                            </div>
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                <div style="flex: 1; width: 100%; display: flex; align-items: end;">
+                                    <div style="width: 100%; height: 60%; background: linear-gradient(180deg, var(--primary-green), var(--forest-green)); border-radius: 8px 8px 0 0;"></div>
+                                </div>
+                                <span style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--medium-gray);">Mar</span>
+                            </div>
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                <div style="flex: 1; width: 100%; display: flex; align-items: end;">
+                                    <div style="width: 100%; height: 77%; background: linear-gradient(180deg, var(--primary-green), var(--forest-green)); border-radius: 8px 8px 0 0;"></div>
+                                </div>
+                                <span style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--medium-gray);">Apr</span>
+                            </div>
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                <div style="flex: 1; width: 100%; display: flex; align-items: end;">
+                                    <div style="width: 100%; height: 92%; background: linear-gradient(180deg, var(--primary-green), var(--forest-green)); border-radius: 8px 8px 0 0;"></div>
+                                </div>
+                                <span style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--medium-gray);">May</span>
+                            </div>
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                <div style="flex: 1; width: 100%; display: flex; align-items: end;">
+                                    <div style="width: 100%; height: 100%; background: linear-gradient(180deg, var(--primary-green), var(--forest-green)); border-radius: 8px 8px 0 0;"></div>
+                                </div>
+                                <span style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--medium-gray);">Jun</span>
+                            </div>
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                <div style="flex: 1; width: 100%; display: flex; align-items: end;">
+                                    <div style="width: 100%; height: 88%; background: linear-gradient(180deg, var(--lime-green), var(--primary-green)); border-radius: 8px 8px 0 0;"></div>
+                                </div>
+                                <span style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--medium-gray); font-weight: 600;">Jul</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crop Health by Type -->
+                <div class="chart-card" style="grid-column: span 12;">
+                    <div class="chart-header">
+                        <h3 class="chart-title">🌱 Crop Health by Type</h3>
+                    </div>
+                    <div style="padding: 2rem;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🍅</div>
+                                <h4 style="color: var(--forest-green);">Tomato</h4>
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--primary-green); margin: 0.5rem 0;">71.4%</div>
+                                <div style="font-size: 0.9rem; color: var(--medium-gray);">Healthy Rate</div>
+                                <div style="margin-top: 1rem; font-size: 0.85rem;">
+                                    <span style="color: var(--primary-green);">423 diagnoses</span>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center;">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🥔</div>
+                                <h4 style="color: var(--forest-green);">Potato</h4>
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--wheat-yellow); margin: 0.5rem 0;">68.9%</div>
+                                <div style="font-size: 0.9rem; color: var(--medium-gray);">Healthy Rate</div>
+                                <div style="margin-top: 1rem; font-size: 0.85rem;">
+                                    <span style="color: var(--wheat-yellow);">389 diagnoses</span>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center;">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🌶️</div>
+                                <h4 style="color: var(--forest-green);">Pepper</h4>
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--sky-blue); margin: 0.5rem 0;">75.3%</div>
+                                <div style="font-size: 0.9rem; color: var(--medium-gray);">Healthy Rate</div>
+                                <div style="margin-top: 1rem; font-size: 0.85rem;">
+                                    <span style="color: var(--sky-blue);">267 diagnoses</span>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center;">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🌾</div>
+                                <h4 style="color: var(--forest-green);">Others</h4>
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--soil-brown); margin: 0.5rem 0;">72.6%</div>
+                                <div style="font-size: 0.9rem; color: var(--medium-gray);">Healthy Rate</div>
+                                <div style="margin-top: 1rem; font-size: 0.85rem;">
+                                    <span style="color: var(--soil-brown);">168 diagnoses</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+        <span id="themeIcon">🌙</span>
+    </button>
+
+    <script src="/static/js/translations.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script>
+        // Auth logout
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.doLogout();
+        });
+
+        // Export report
+        document.querySelector('.dashboard-actions button')?.addEventListener('click', () => {
+            window.UlavanTholan.showNotification('📊 Report exported successfully!', 'success');
+        });
+
+        // Apply translations
+        if (window.LangManager) window.LangManager.applyAll();
+    </script>
+</body>
+</html>

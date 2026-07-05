@@ -1,0 +1,258 @@
+/* Language Switcher Styles */
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--light-gray);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    box-shadow: var(--clay-inset);
+}
+
+.lang-btn {
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-sm);
+    padding: 0.35rem 0.75rem;
+    font-family: var(--font-primary);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.lang-btn:hover {
+    background: var(--white);
+    color: var(--primary-green);
+    box-shadow: var(--clay-shadow-sm);
+}
+
+.lang-btn.active-lang {
+    background: linear-gradient(135deg, var(--primary-green), var(--forest-green));
+    color: white;
+    box-shadow: var(--clay-shadow-sm);
+}
+
+/* Quick action button fix */
+.action-button {
+    background: var(--light-gray);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 1.2rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    box-shadow: var(--clay-shadow-sm);
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-button:hover {
+    background: white;
+    transform: translateY(-3px);
+    box-shadow: var(--clay-shadow);
+}
+
+.action-button:active {
+    transform: translateY(0);
+    box-shadow: var(--clay-inset);
+}
+
+/* Upload area fix */
+.upload-area {
+    cursor: pointer;
+    user-select: none;
+}
+
+.upload-area label {
+    cursor: pointer;
+}
+
+/* Auth redirect notice */
+.auth-notice {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 2rem 3rem;
+    box-shadow: var(--clay-shadow-lg);
+    text-align: center;
+    z-index: 9999;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+/* ======================== Modal Styles ======================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-overlay.open {
+    display: flex;
+}
+
+.modal-box {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: 0;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--clay-shadow-lg);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem 1rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.modal-header h3 {
+    color: var(--forest-green);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.modal-close {
+    background: var(--light-gray);
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark-gray);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    box-shadow: var(--clay-shadow-sm);
+    font-weight: 700;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    background: #ff5252;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(255,82,82,0.3);
+}
+
+.modal-body {
+    padding: 1.5rem 2rem 2rem;
+}
+
+.advisory-result {
+    background: linear-gradient(135deg, #f1f8e9, #e8f5e9);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    border-left: 4px solid var(--primary-green);
+}
+
+.advisory-result h4 {
+    color: var(--forest-green);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.advisory-result p {
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin: 0.2rem;
+}
+
+.badge-green { background: #e8f5e9; color: var(--forest-green); }
+.badge-blue  { background: #e3f2fd; color: #1565C0; }
+.badge-yellow{ background: #fffde7; color: #F57F17; }
+
+/* ======================== Nav Logo New Styles ======================== */
+.nav-logo-img {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    box-shadow: 0 2px 8px rgba(46,125,50,0.2);
+    background: white;
+    padding: 2px;
+    flex-shrink: 0;
+}
+
+.nav-logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    gap: 0;
+}
+
+.nav-logo-tamil {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--forest-green);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+}
+
+.nav-logo-english {
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--medium-gray);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+/* Login page logo */
+.login-logo img {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Mobile nav logo adjustments */
+@media (max-width: 768px) {
+    .nav-logo-img {
+        width: 36px;
+        height: 36px;
+    }
+    .nav-logo-tamil {
+        font-size: 0.95rem;
+    }
+    .nav-logo-english {
+        font-size: 0.58rem;
+    }
+}
