@@ -31,21 +31,28 @@ class DiseasePredictor:
         # Disease information database
         self.disease_info = self._load_disease_info()
     
-    def load_model(self):
-        """Load trained model and class names"""
-        try:
-            print("🔄 Loading model...")
-            self.model = tf.keras.models.load_model(self.model_path)
-            print("✅ Model loaded successfully")
-            
-            with open(self.classes_path, 'r') as f:
-                self.class_names = json.load(f)
-            print(f"✅ Loaded {len(self.class_names)} classes")
-            
-        except Exception as e:
-            print(f"❌ Error loading model: {e}")
-            # Create dummy model for testing without trained model
-            self._create_dummy_classes()
+def load_model(self):
+    """Load trained model and class names"""
+
+    # If TensorFlow is not installed, use demo mode
+    if not TF_AVAILABLE:
+        print("⚠️ TensorFlow not available. Using demo mode.")
+        self._create_dummy_classes()
+        return
+
+    try:
+        print("🔄 Loading model...")
+        self.model = tf.keras.models.load_model(self.model_path)
+        print("✅ Model loaded successfully")
+
+        with open(self.classes_path, "r") as f:
+            self.class_names = json.load(f)
+
+        print(f"✅ Loaded {len(self.class_names)} classes")
+
+    except Exception as e:
+        print(f"❌ Error loading model: {e}")
+        self._create_dummy_classes()
     
     def _create_dummy_classes(self):
         """Create dummy classes for testing"""
