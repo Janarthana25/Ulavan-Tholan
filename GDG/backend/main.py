@@ -17,7 +17,7 @@ import json
 import random
 
 # Import ML predictor
-from ml.predictor import get_predictor
+from backend.ml.predictor import get_predictor
 
 # Initialize FastAPI app
 app = FastAPI(
