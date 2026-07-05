@@ -73,6 +73,11 @@ async def root():
     """Root endpoint - serve frontend"""
     return FileResponse("frontend/templates/index.html")
 
+@app.get("/login")
+async def login():
+    """Serve login page"""
+    return FileResponse("frontend/templates/login.html")
+
 @app.get("/api/health")
 async def health_check():
     """API health check"""
