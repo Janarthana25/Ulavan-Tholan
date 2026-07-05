@@ -3,12 +3,19 @@ Plant Disease Prediction Service
 Real-time inference using trained MobileNetV2 model
 """
 
-import tensorflow as tf
 import numpy as np
 from PIL import Image
 import json
 import os
 from typing import List, Dict, Tuple
+
+try:
+    import tensorflow as tf
+    TF_AVAILABLE = True
+except ImportError:
+    tf = None
+    TF_AVAILABLE = False
+    print("TensorFlow not available. Demo mode enabled.")
 
 class DiseasePredictor:
     def __init__(self, model_path='backend/ml/models/plant_disease_model.h5',
